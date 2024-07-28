@@ -1,2 +1,5 @@
 myenv/
 .env
+rent/migrations/
+rent/__pycache__/
+DVD_RENTAL/__pycache__/
