@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+      'rent',
+      'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +55,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+      'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+]
+
+
+url = os.getenv('FRONTEND_URL')
+
+if url is None:
+    raise Exception("FRONTEND_URL is not set")
+
+CORS_ALLOWED_ORIGINS = [
+    url
+
 ]
 
 ROOT_URLCONF = 'DVD_RENTAL.urls'
@@ -73,14 +95,23 @@ WSGI_APPLICATION = 'DVD_RENTAL.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+db_name = os.getenv('DB_NAME')
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
+db_port = os.getenv('DB_PORT')
+
+if db_name is None or db_user is None or db_password is None or db_host is None or db_port is None:
+    raise Exception("DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT are not set")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dvdrental',
-        'USER': 'postgres',
-        'PASSWORD': '71254267',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': db_name,
+        'USER': db_user,
+        'PASSWORD': db_password,
+        'HOST': db_host,
+        'PORT': db_port,
     }
 }
 
