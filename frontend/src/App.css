@@ -1,0 +1,40 @@
+html,
+.App {
+  background-color: #141414;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+.rentDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.interactionButton {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  top: 80px;
+  opacity: 0.5;
+}
+
+.interactionButton:hover {
+  opacity: 1;
+}
+
+.backwordsButton {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.nexButton {
+  transform: rotate(180deg);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.rentalDuration {
+  font-style: italic;
+  color: #129649;
+}
