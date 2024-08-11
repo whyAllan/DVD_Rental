@@ -23,7 +23,7 @@ html,
   opacity: 1;
 }
 
-.backwordsButton {
+.backwardsButton {
   margin-left: 20px;
   margin-right: 20px;
 }
@@ -37,4 +37,11 @@ html,
 .rentalDuration {
   font-style: italic;
   color: #129649;
+}
+
+.categoryTitle {
+  margin-left: 14px;
+}
+.categoryMap {
+  margin-bottom: 20px;
 }

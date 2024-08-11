@@ -1,4 +1,19 @@
+import { useState, useEffect } from "react";
+import api from "../api/api";
+
 function Navbar() {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    (async function fetchData() {
+      try {
+        const response = await api.get("/categories");
+        setCategories(response);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div className="container-fluid">
@@ -60,8 +75,8 @@ function Navbar() {
               </ul>
             </li>
             <li className="nav-item">
-              <a className="nav-link disabled" aria-disabled="true">
-                Wellcome
+              <a className="nav-link disabled" href="/" aria-disabled="true">
+                Welcome
               </a>
             </li>
           </ul>
