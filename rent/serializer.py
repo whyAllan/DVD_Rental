@@ -49,14 +49,41 @@ class FilmActorSerializer(serializers.ModelSerializer):
         fields = ('actor', 'film', 'last_update')
 
 
+class InventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ('inventory_id', 'film', 'store_id', 'last_update')
 
+
+class StoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Store
+        fields = ('store_id', 'manager_staff', 'address', 'last_update')
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ('address_id', 'address', 'address2', 'district', 'city', 'postal_code', 'phone', 'last_update')
+
+
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ('city_id', 'city', 'country', 'last_update')
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ('country_id', 'country', 'last_update')
 
 
 class FilmWithDetailsSerializer(serializers.Serializer):
     film =  FilmSerializer()
     actors = FilmActorSerializer(many=True)
     category = FilmCategorySerializer()
-
-
-
+    cities = CitySerializer(many=True)
+    countries = CountrySerializer(many=True)
+ 
 

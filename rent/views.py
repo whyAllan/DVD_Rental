@@ -54,10 +54,14 @@ class FilmDetail(APIView):
                film = Film.objects.get(film_id=film_id)
                actors = FilmActor.objects.filter(film=film_id)
                category = FilmCategory.objects.get(film=film_id)
+               cities = City.objects.filter(address__store__in=Inventory.objects.filter(film_id=film_id).values('store_id'))
+               countries = Country.objects.filter(city__in=cities)
                serializedFilm = FilmWithDetailsSerializer({
                    'film': film,
                    'actors': actors,
-                   'category': category 
+                   'category': category,
+                   'cities': cities,
+                   'countries': countries
                }).data 
                
                return Response(serializedFilm, status=status.HTTP_200_OK)
