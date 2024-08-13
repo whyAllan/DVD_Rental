@@ -7,15 +7,19 @@ html,
 
 .rentDiv {
   display: flex;
+  position: relative;
   flex-direction: row;
+  margin-left: 40px;
+  margin-right: 40px;
+  height: 19rem;
 }
 
 .interactionButton {
   cursor: pointer;
   width: 50px;
-  height: 50px;
-  position: relative;
-  top: 80px;
+  height: 100%;
+  border: 2px solid #4a514d;
+  background-color: #4a514d;
   opacity: 0.5;
 }
 
@@ -24,14 +28,17 @@ html,
 }
 
 .backwardsButton {
-  margin-left: 20px;
-  margin-right: 20px;
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  height: 100%;
+  transform: rotate(180deg);
 }
 
 .nexButton {
-  transform: rotate(180deg);
-  margin-left: 20px;
-  margin-right: 20px;
+  position: absolute;
+  z-index: 3;
+  right: 0;
 }
 
 .rentalDuration {
@@ -44,4 +51,14 @@ html,
 }
 .categoryMap {
   margin-bottom: 20px;
+}
+.card {
+  min-height: 19rem;
+  min-width: 18rem;
+}
+
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.2s;
 }
