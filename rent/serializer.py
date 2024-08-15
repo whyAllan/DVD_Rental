@@ -116,10 +116,45 @@ class CitySerializer(serializers.ModelSerializer):
         }
 
 
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ('payment_id', 'customer', 'staff', 'rental', 'amount', 'payment_date')
+
+    def to_representation(self, instance):
+        return {
+            'payment_id': instance.payment_id,
+            'customer': instance.customer.first_name + ' ' + instance.customer.last_name,
+            'staff': instance.staff.first_name + ' ' + instance.staff.last_name,
+            'rental': instance.rental.rental_id,
+            'amount': instance.amount,
+            'payment_date': instance.payment_date
+        }
+
+
+class RentalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rental
+        fields = ('rental_id', 'rental_date', 'inventory', 'customer', 'return_date', 'staff', 'payment', 'last_update')
+
+    def to_representation(self, instance):
+        return {
+            'rental_id': instance.rental_id,
+            'rental_date': instance.rental_date,
+            'customer': instance.customer.first_name + ' ' + instance.customer.last_name,
+            'return_date': instance.return_date,
+            'staff': instance.staff.first_name + ' ' + instance.staff.last_name,
+            'last_update': instance.last_update
+        }
+
+
+
 class FilmWithDetailsSerializer(serializers.Serializer):
     film =  FilmSerializer()
     actors = FilmActorSerializer(many=True)
     category = FilmCategorySerializer()
     cities = CitySerializer(many=True)
+    rentals = RentalSerializer(many=True)
  
 

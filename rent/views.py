@@ -54,16 +54,18 @@ class FilmDetail(APIView):
                film = Film.objects.get(film_id=film_id)
                actors = FilmActor.objects.filter(film=film_id)
                category = FilmCategory.objects.get(film=film_id)
-               cities = City.objects.filter(address__store__in=Inventory.objects.filter(film_id=film_id).values('store_id'))
+               Inventories = Inventory.objects.filter(film_id=film_id).values('store_id')
+               rentals = Rental.objects.filter(inventory__in=Inventories)
+               cities = City.objects.filter(address__store__in=Inventories)
                serializedFilm = FilmWithDetailsSerializer({
                    'film': film,
                    'actors': actors,
                    'category': category,
                    'cities': cities,
+                   'rentals': rentals
                }).data 
                
                return Response(serializedFilm, status=status.HTTP_200_OK)
           except Exception as e:
-               print(e)
                return Response(status=status.HTTP_400_BAD_REQUEST)
                

@@ -1,6 +1,7 @@
 import NextIcon from "../icons/next.svg";
 import { useState, useEffect } from "react";
 import api from "../api/api";
+import LoadingSpinner from "./LoadingSpinner";
 
 function CategoryMap({ category }: any) {
   const [isLoading, setIsLoading] = useState(true);
@@ -82,7 +83,7 @@ function CategoryMap({ category }: any) {
         )}
         <div className="rentList">
           <div className="row row-cols-5 row-cols-md-5 g-4">
-            {isLoading && <h1>Loading...</h1>}
+            {isLoading && <LoadingSpinner />}
             {filmsDisplay &&
               filmsDisplay.map((film: any) => (
                 <div className="col" key={film.film_id}>

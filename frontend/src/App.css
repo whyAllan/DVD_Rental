@@ -64,6 +64,10 @@ html,
   min-width: 18rem;
 }
 
+.film-view button {
+  height: 3rem;
+}
+
 .card:hover {
   cursor: pointer;
   transform: scale(1.05);
