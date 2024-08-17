@@ -20,6 +20,7 @@ class FilmSerializer(serializers.ModelSerializer):
             'film_id': instance.film_id,
             'title': instance.title,
             'language': instance.language.name,
+            'language_id': instance.language.language_id,
             'description': instance.description,
             'release_year': instance.release_year,
             'rental_duration': instance.rental_duration,
@@ -47,6 +48,7 @@ class FilmCategorySerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return {
+            'category_id': instance.category_id,
             'category': instance.category.name,
             'film': instance.film.title,
             'last_update': instance.last_update
@@ -70,6 +72,7 @@ class FilmActorSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return {
+            'actor_id': instance.actor_id,
             'actor': instance.actor.first_name + ' ' + instance.actor.last_name,
             'film': instance.film.title,
             'last_update': instance.last_update

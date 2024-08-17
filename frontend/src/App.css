@@ -73,3 +73,13 @@ html,
   transform: scale(1.05);
   transition: 0.2s;
 }
+
+.selectable {
+  cursor: pointer;
+  color: rgb(128, 197, 174);
+  font-weight: bold;
+}
+
+.selectable:hover {
+  color: #129649;
+}

@@ -23,6 +23,14 @@ function FilmView() {
 
   if (isLoading) return <LoadingSpinner />;
 
+  function navigate(event: any) {
+    const type = event.currentTarget.getAttribute("data-type");
+    const id = event.currentTarget.getAttribute("data-id");
+    if (!id || !type) return console.log("No id or type");
+
+    window.location.href = `/filter/${type}/${id}`;
+  }
+
   return (
     <>
       <div className="container my-5 p-5 film-view">
@@ -41,24 +49,54 @@ function FilmView() {
             <p>
               <strong>Release Year:</strong> {film.film.release_year}
             </p>
-
             <p>
               <strong>Length:</strong> {film.film.length} minutes
             </p>
-
             <p>
-              <strong>Category:</strong> {film.category.category}
+              <strong>Category:</strong>{" "}
+              <span
+                data-id={film.category.category_id}
+                data-type="category"
+                className="selectable"
+                title={"See more"}
+                onClick={navigate}
+              >
+                {film.category.category}
+              </span>
             </p>
 
-            <p>
+            <div>
               <strong>Actors:</strong>{" "}
-              {film.actors.map((actor: any) => actor.actor).join(", ")}
-            </p>
+              {film.actors.map((actor: any, index: number) => (
+                <span key={actor.actor_id}>
+                  <span
+                    className="selectable"
+                    data-id={actor.actor_id}
+                    data-type="actor"
+                    title={"See more"}
+                    onClick={navigate}
+                  >
+                    {actor.actor}
+                  </span>
+
+                  {index < film.actors.length - 1 && ", "}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="col">
             <p>
-              <strong>Language:</strong> {film.film.language}
+              <strong>Language:</strong>{" "}
+              <span
+                className="selectable"
+                title={"See more"}
+                onClick={navigate}
+                data-id={film.film.language_id}
+                data-type="language"
+              >
+                {film.film.language}
+              </span>
             </p>
 
             <p>
