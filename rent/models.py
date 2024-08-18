@@ -210,7 +210,7 @@ class Film(models.Model):
 
 class FilmActor(models.Model):
     actor = models.OneToOneField(Actor, models.DO_NOTHING, primary_key=True)  # The composite primary key (actor_id, film_id) found, that is not supported. The first column is selected.
-    film = models.ForeignKey(Film, models.DO_NOTHING)
+    film = models.ForeignKey(Film, models.DO_NOTHING, related_name='+')
     last_update = models.DateTimeField()
 
     class Meta:

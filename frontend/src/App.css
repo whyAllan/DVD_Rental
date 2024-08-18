@@ -83,3 +83,21 @@ html,
 .selectable:hover {
   color: #129649;
 }
+
+.house-icon {
+  margin-right: 10px;
+}
+
+.goto-store:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.load-more {
+  cursor: pointer;
+  color: #129649;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}

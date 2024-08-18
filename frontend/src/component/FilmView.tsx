@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
 import LoadingSpinner from "./LoadingSpinner";
+import HouseIcon from "../icons/house.svg";
 
 function FilmView() {
   const { id } = useParams();
@@ -130,9 +131,23 @@ function FilmView() {
                   <strong>Available in:</strong>
                   <ul>
                     {film.cities.map((city: any) => (
-                      <li key={city.city_id}>
-                        {city.city}, {city.country}
-                      </li>
+                      <p
+                        key={city.city_id}
+                        className="goto-store"
+                        onClick={() =>
+                          (window.location.href = `/store/${city.city_id}`)
+                        }
+                      >
+                        <li>
+                          <img
+                            src={HouseIcon}
+                            alt="House icon"
+                            className="house-icon"
+                            title="go to store"
+                          />
+                          {city.city}, {city.country}
+                        </li>
+                      </p>
                     ))}
                   </ul>
                 </>

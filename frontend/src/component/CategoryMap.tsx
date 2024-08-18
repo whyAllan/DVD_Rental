@@ -2,6 +2,7 @@ import NextIcon from "../icons/next.svg";
 import { useState, useEffect } from "react";
 import api from "../api/api";
 import LoadingSpinner from "./LoadingSpinner";
+import FilmList from "./FilmList";
 
 function CategoryMap({ category }: any) {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +19,7 @@ function CategoryMap({ category }: any) {
         const response = await api.get(
           `/films/category/${category.category_id}?page=1`
         );
+        console.log(response);
         let response_films = response.films;
         let has_next = response.has_next;
         setFilms(response_films);
@@ -82,34 +84,8 @@ function CategoryMap({ category }: any) {
           />
         )}
         <div className="rentList">
-          <div className="row row-cols-5 row-cols-md-5 g-4">
-            {isLoading && <LoadingSpinner />}
-            {filmsDisplay &&
-              filmsDisplay.map((film: any) => (
-                <div className="col" key={film.film_id}>
-                  <div
-                    className="card text-bg-dark border-primary mb-3"
-                    onClick={() =>
-                      (window.location.href = `/films/${film.film_id}`)
-                    }
-                    data-bs-theme="dark"
-                  >
-                    <div className="card-body">
-                      <h4 className="card-title">{film.title}</h4>
-                      <hr />
-                      <h6 className="card-subtitle mb-2 text-muted">
-                        {film.length} minutes
-                      </h6>
-                      <h6 className="card-text rentalDuration">
-                        ${film.rental_rate} / {film.rental_duration} days
-                      </h6>
-                      <br />
-                      <p className="card-text">{film.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
+          {isLoading && <LoadingSpinner />}
+          {filmsDisplay && <FilmList films={filmsDisplay} />}
         </div>
         {hasNext && (
           <img
