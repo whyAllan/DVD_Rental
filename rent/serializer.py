@@ -1,4 +1,5 @@
 from rest_framework import serializers
+import base64
 from .models import *
 import json
 
@@ -63,6 +64,26 @@ class ActorSerializer(serializers.ModelSerializer):
         fields = ('actor_id', 'first_name', 'last_name')
 
 
+class AddressSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Address
+        fields = ('address_id', 'address', 'address2', 'district', 'city', 'postal_code', 'phone', 'last_update')
+
+    def to_representation(self, instance):
+        return {
+            'address_id': instance.address_id,
+            'address': instance.address,
+            'address2': instance.address2,
+            'district': instance.district,
+            'city': instance.city.city,
+            'country': instance.city.country.country,
+            'postal_code': instance.postal_code,
+            'phone': instance.phone,
+            'last_update': instance.last_update
+        }
+
+
 class FilmActorSerializer(serializers.ModelSerializer):
     actor = ActorSerializer()
 
@@ -85,16 +106,31 @@ class InventorySerializer(serializers.ModelSerializer):
         fields = ('inventory_id', 'film', 'store_id', 'last_update')
 
 
+class StaffSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Staff
+        fields = ('staff_id', 'first_name', 'last_name', 'address', 'picture')
+
+    def to_representation(self, instance):
+        picture = instance.picture
+        if picture:
+            picture = base64.b64encode(picture).decode('utf-8')
+        return {
+            'staff_id': instance.staff_id,
+            'first_name': instance.first_name,
+            'last_name': instance.last_name,
+            'address': instance.address.address,
+            'picture': picture
+        }
+
+
 class StoreSerializer(serializers.ModelSerializer):
+    manager_staff = StaffSerializer()
+    address = AddressSerializer()
+
     class Meta:
         model = Store
         fields = ('store_id', 'manager_staff', 'address', 'last_update')
-
-
-class AddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Address
-        fields = ('address_id', 'address', 'address2', 'district', 'city', 'postal_code', 'phone', 'last_update')
 
 
 
@@ -157,7 +193,7 @@ class FilmWithDetailsSerializer(serializers.Serializer):
     film =  FilmSerializer()
     actors = FilmActorSerializer(many=True)
     category = FilmCategorySerializer()
-    cities = CitySerializer(many=True)
+    stores = StoreSerializer(many=True)
     rentals = RentalSerializer(many=True)
  
 

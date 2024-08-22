@@ -126,16 +126,16 @@ function FilmView() {
             </p>
 
             <div className="availability">
-              {film.cities.length > 0 ? (
+              {film.stores.length > 0 ? (
                 <>
                   <strong>Available in:</strong>
                   <ul>
-                    {film.cities.map((city: any) => (
+                    {film.stores.map((store: any) => (
                       <p
-                        key={city.city_id}
+                        key={store.store_id}
                         className="goto-store"
                         onClick={() =>
-                          (window.location.href = `/store/${city.city_id}`)
+                          (window.location.href = `/store/${store.store_id}`)
                         }
                       >
                         <li>
@@ -145,7 +145,7 @@ function FilmView() {
                             className="house-icon"
                             title="go to store"
                           />
-                          {city.city}, {city.country}
+                          {store.address.city}, {store.address.country}
                         </li>
                       </p>
                     ))}
