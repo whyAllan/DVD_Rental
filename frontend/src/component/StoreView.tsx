@@ -61,8 +61,8 @@ function StoreView() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div>
-      <div className="container my-5 p-5 film-view">
+    <>
+      <div className="container my-5 film-view">
         <h1>Store {store.store_id}</h1>
         <hr />
         <div className="store-details">
@@ -99,7 +99,7 @@ function StoreView() {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 

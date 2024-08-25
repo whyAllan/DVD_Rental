@@ -1,24 +1,23 @@
-import { useState, useEffect } from "react";
-import api from "../api/api";
+import { useState } from "react";
+import "../App.css";
 
 function Navbar() {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    (async function fetchData() {
-      try {
-        const response = await api.get("/categories");
-        setCategories(response);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  async function search(event: any) {
+    event.preventDefault();
+    window.location.href = `/search?query=${searchQuery}`;
+  }
 
   return (
-    <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav
+      className="navbar navbar-expand-lg bg-dark"
+      id="navbar"
+      data-bs-theme="dark"
+    >
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
-          Navbar
+          Dvd Rental
         </a>
         <button
           className="navbar-toggler"
@@ -39,53 +38,26 @@ function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/">
-                Link
+              <a className="nav-link" href="/filter">
+                Filter
               </a>
             </li>
-            <li className="nav-item dropdown">
-              <div
-                className="nav-link dropdown-toggle"
-                role="button"
-                id="dropdownMenuLink"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </div>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li>
+
             <li className="nav-item">
               <a className="nav-link disabled" href="/" aria-disabled="true">
                 Welcome
               </a>
             </li>
           </ul>
-          <form className="d-flex" role="search">
+          <form className="d-flex" role="search" onSubmit={search}>
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              name="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
             />
             <button className="btn btn-outline-success" type="submit">
               Search

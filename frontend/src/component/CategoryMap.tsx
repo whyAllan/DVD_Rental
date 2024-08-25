@@ -19,7 +19,6 @@ function CategoryMap({ category }: any) {
         const response = await api.get(
           `/films/category/${category.category_id}?page=1`
         );
-        console.log(response);
         let response_films = response.films;
         let has_next = response.has_next;
         setFilms(response_films);

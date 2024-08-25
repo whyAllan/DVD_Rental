@@ -30,6 +30,17 @@ class Categories(APIView):
                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+# Store List View
+class StoreList(APIView):
+     def get(self, request):
+          try:
+               stores = Store.objects.all()
+               stores = StoreSerializer(stores, many=True).data
+               return Response(stores, status=status.HTTP_200_OK)
+          except Exception as e:
+               return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 # Store View
 class StoreView(APIView):
      def get(self, request, store_id):
@@ -39,6 +50,17 @@ class StoreView(APIView):
                return Response(store, status=status.HTTP_200_OK)
           except Exception as e:
                print(e)
+               return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# Search View
+class Search(APIView):
+     def get(self, request):
+          try:
+               q = request.GET.get('q')
+               films = Film.objects.filter(title__icontains=q).values()[:20]
+               return Response(films, status=status.HTTP_200_OK)
+          except Exception as e:
                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 

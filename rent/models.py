@@ -198,10 +198,10 @@ class Film(models.Model):
     rental_rate = models.DecimalField(max_digits=4, decimal_places=2)
     length = models.SmallIntegerField(blank=True, null=True)
     replacement_cost = models.DecimalField(max_digits=5, decimal_places=2)
-    rating = models.TextField(blank=True, null=True)  # This field type is a guess.
+    rating = models.TextField(blank=True, null=True) 
     last_update = models.DateTimeField()
-    special_features = models.TextField(blank=True, null=True)  # This field type is a guess.
-    fulltext = models.TextField()  # This field type is a guess.
+    special_features = models.TextField(blank=True, null=True)
+    fulltext = models.TextField()
 
     class Meta:
         managed = False

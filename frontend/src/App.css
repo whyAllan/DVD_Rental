@@ -5,6 +5,12 @@ html,
   font-family: "Roboto", sans-serif;
 }
 
+#navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .rentDiv {
   display: flex;
   position: relative;
@@ -100,4 +106,17 @@ html,
   font-weight: bold;
   text-align: center;
   margin-top: 10px;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.search-form input {
+  width: 60%;
+  float: left;
+  margin-right: 10px;
 }

@@ -8,7 +8,7 @@ function Index() {
   useEffect(() => {
     (async function fetchData() {
       try {
-        const response = await api.get("/categories");
+        const response = await api.get("/get/categories");
         setCategories(response);
       } catch (error) {
         console.log(error);
