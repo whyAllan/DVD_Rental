@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 import api from "../api/api";
 import FilmList from "./FilmList";
-import { useNavigate } from "react-router-dom";
+import SearchActorForm from "./SearchActorForm";
 
 function FilteredList() {
   const navigate = useNavigate();
@@ -24,50 +24,59 @@ function FilteredList() {
 
   /////////////////// FILTER STUFF ///////////////////
 
-  const filterTypes = {
-    // Filter types and class names
-    category: ".category-filter",
-    actor: ".actor-filter",
-    language: ".language-filter",
-    store: ".store-filter",
-  };
+  const fetchFilterData = useCallback(
+    async (filterType: string) => {
+      const filterTypes = {
+        // Filter types and class names
+        category: ".category-filter",
+        actor: ".actor-filter",
+        language: ".language-filter",
+        store: ".store-filter",
+      };
+      // Make sure selected filter is visible
+      Object.keys(filterTypes).forEach((filterTypeKey) => {
+        const filterElement = document.querySelector(
+          filterTypes[filterTypeKey as keyof typeof filterTypes]
+        );
+        if (filterTypeKey === filterType) {
+          filterElement?.classList.remove("d-none");
+        } else {
+          filterElement?.classList.add("d-none");
+        }
+      });
+      // Get data
 
-  async function fetchfilterData(filter: string) {
-    // Make sure selected filter is visible
-    Object.keys(filterTypes).forEach((filterType) => {
-      const filterElement = document.querySelector(
-        filterTypes[filterType as keyof typeof filterTypes]
-      );
-      if (filterType === filter) {
-        filterElement?.classList.remove("d-none");
-      } else {
-        filterElement?.classList.add("d-none");
+      if (filterType !== "category" && filterType !== "store") return; // Don't fetch languages for now
+      try {
+        const response = await api.get(`/get/${filterType}`);
+        switch (filterType) {
+          case "category":
+            setCategories(response);
+            break;
+          case "store":
+            setStores(response);
+            break;
+          default:
+            console.error(`Unknown filter type: ${filterType}`);
+            break;
+        }
+      } catch (error) {
+        console.error(error);
       }
-    });
-    // Get data
+    },
+    [setCategories, setStores]
+  );
 
-    try {
-      const response = await api.get(`/get/${filter}`);
-      if (filter === "category") setCategories(response);
-      // if (filter === "language") setLanguages(response);
-      if (filter === "store") setStores(response);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // Make sure selected filter is visible
   useEffect(() => {
-    if (type && id) {
-      fetchfilterData(type);
+    if (type) {
+      fetchFilterData(type);
     }
-  }, [type, id]);
+  }, [type, fetchFilterData]);
 
   function selectFilter(event: any) {
     const value = event.target.value;
     if (!value) return console.log("No value");
-    fetchfilterData(value);
+    fetchFilterData(value);
   }
 
   function ApplyFilter(event: any) {
@@ -164,28 +173,33 @@ function FilteredList() {
 
         <div className="actor-filter d-none">
           <h3>Actor</h3>
-
-          <div className="form-check search-form" data-bs-theme="dark">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search actor"
-            />
-            <button className="btn btn-outline-primary">Search</button>
-          </div>
+          <SearchActorForm navigate={navigate} />
         </div>
 
         <div className="language-filter d-none">
           <h3>Language</h3>
 
           <div className="form-check">
-            <ul className="list-group" data-bs-theme="dark">
+            <select
+              className="form-select"
+              data-bs-theme="dark"
+              defaultValue={""}
+              onChange={ApplyFilter}
+              data-type="language"
+            >
+              <option value="" disabled>
+                Select
+              </option>
               {languages.map((language: any) => (
-                <li className="list-group-item" key={language.language_id}>
-                  {language.name} (only English available)
-                </li>
+                <option
+                  className="list-group-item"
+                  key={language.language_id}
+                  value={language.language_id}
+                >
+                  {language.name}
+                </option>
               ))}
-            </ul>
+            </select>
           </div>
         </div>
 
@@ -197,12 +211,18 @@ function FilteredList() {
               className="form-select"
               data-bs-theme="dark"
               defaultValue={""}
+              onChange={ApplyFilter}
+              data-type="store"
             >
               <option value="" disabled>
                 Select
               </option>
               {stores.map((store: any) => (
-                <option className="list-group-item" key={store.store_id}>
+                <option
+                  className="list-group-item"
+                  key={store.store_id}
+                  value={store.store_id}
+                >
                   {store.store_id}: {store.address.address},{" "}
                   {store.address.district}
                 </option>

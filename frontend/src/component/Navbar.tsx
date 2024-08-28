@@ -53,7 +53,7 @@ function Navbar() {
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Search"
+              placeholder="Search for films"
               aria-label="Search"
               name="search"
               value={searchQuery}

@@ -61,14 +61,16 @@ MIDDLEWARE = [
 ]
 
 
-url = os.getenv('FRONTEND_URL')
+main_url = os.getenv('FRONTEND_URL')
+mobile_url = os.getenv('MOBILE_URL')
 
-if url is None:
+if main_url is None:
     raise Exception("FRONTEND_URL is not set")
 
-CORS_ALLOWED_ORIGINS = [
-    url
 
+
+CORS_ALLOWED_ORIGINS = [
+    main_url
 ]
 
 ROOT_URLCONF = 'DVD_RENTAL.urls'

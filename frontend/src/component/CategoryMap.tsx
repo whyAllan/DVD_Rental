@@ -69,6 +69,8 @@ function CategoryMap({ category }: any) {
     setHasPrevious(page > 1);
   }, [page, films]);
 
+  if (isLoading) return <LoadingSpinner />;
+
   return (
     <div className="categoryMap">
       <h1 className="categoryTitle">{category.name}</h1>

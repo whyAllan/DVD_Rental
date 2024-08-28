@@ -11,6 +11,12 @@ html,
   z-index: 10;
 }
 
+.filmCardList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .rentDiv {
   display: flex;
   position: relative;
@@ -115,8 +121,10 @@ html,
   align-items: center;
 }
 
-.search-form input {
-  width: 60%;
-  float: left;
-  margin-right: 10px;
+.selectable-option {
+  cursor: pointer;
+}
+
+.selectable-option:hover {
+  background-color: #121413;
 }

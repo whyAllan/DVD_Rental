@@ -1,10 +1,11 @@
 from .models import *
 from .serializer import *
+from .utils import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from django.core.paginator import Paginator
-
+from django.db.models import Q
 # Create your views here
 
 # Home View (not being used)
@@ -30,6 +31,9 @@ class Categories(APIView):
                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
+
 # Store List View
 class StoreList(APIView):
      def get(self, request):
@@ -48,6 +52,25 @@ class StoreView(APIView):
                store = Store.objects.get(store_id=store_id)
                store = StoreSerializer(store).data
                return Response(store, status=status.HTTP_200_OK)
+          except Exception as e:
+               print(e)
+               return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# Search Actors View
+class SearchActors(APIView):
+     def get(self, request):
+          try:
+              q = request.GET.get('q').lower().split()
+              actors = set([])
+              for word in q:
+                   result = Actor.objects.filter(Q(last_name__icontains=word) | Q(first_name__icontains=word))[:5]
+                   actors = actors.union(result)
+
+              actors = ActorSerializer(actors, many=True).data
+              actors = OrganizeByAccuracy(actors, q) 
+              return Response(actors, status=status.HTTP_200_OK)
           except Exception as e:
                print(e)
                return Response(status=status.HTTP_400_BAD_REQUEST)
