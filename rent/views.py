@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 # Create your views here
 
+
 # Home View (not being used)
 class Index(APIView):
      
@@ -53,7 +54,6 @@ class StoreView(APIView):
                store = StoreSerializer(store).data
                return Response(store, status=status.HTTP_200_OK)
           except Exception as e:
-               print(e)
                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -72,7 +72,6 @@ class SearchActors(APIView):
               actors = OrganizeByAccuracy(actors, q) 
               return Response(actors, status=status.HTTP_200_OK)
           except Exception as e:
-               print(e)
                return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -125,7 +124,6 @@ class FilmDetail(APIView):
                
                return Response(serializedFilm, status=status.HTTP_200_OK)
           except Exception as e:
-               print(e)
                return Response(status=status.HTTP_400_BAD_REQUEST)
                
 

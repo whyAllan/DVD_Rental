@@ -15,6 +15,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xnnz@p!+d#w^7%29vuqx_-9py-9@hz5*!@+f2x_&dd*d0d1w&o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -61,19 +62,43 @@ MIDDLEWARE = [
 ]
 
 
+# CORS Configuration
+
 main_url = os.getenv('FRONTEND_URL')
-mobile_url = os.getenv('MOBILE_URL')
 
 if main_url is None:
     raise Exception("FRONTEND_URL is not set")
 
 
-
 CORS_ALLOWED_ORIGINS = [
-    main_url
+    'http://localhost:3000',
 ]
 
+
 ROOT_URLCONF = 'DVD_RENTAL.urls'
+
+# Enforce HTTPS
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Certificate
+
+server {
+    listen 443 ssl;
+    server_name  localhost;
+
+    ssl_certificate /path/to/your/fullchain.pem;
+    ssl_certificate_key /path/to/your/privkey.pem;
+
+    # SSL configuration...
+}
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
 
 TEMPLATES = [
     {
@@ -116,6 +141,7 @@ DATABASES = {
         'PORT': db_port,
     }
 }
+
 
 
 # Password validation

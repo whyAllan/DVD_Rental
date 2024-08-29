@@ -10,7 +10,6 @@ function SearchActorForm({ navigate }: any) {
     const timeout = setTimeout(async () => {
       const response = await api.get(`/search/actors?q=${searchQuery}`);
       const data = response;
-      console.log(data);
       setActors(data);
     }, 700);
 
