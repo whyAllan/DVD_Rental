@@ -12,11 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from dotenv import load_dotenv
-load_dotenv()
 
-
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +26,6 @@ SECRET_KEY = 'django-insecure-xnnz@p!+d#w^7%29vuqx_-9py-9@hz5*!@+f2x_&dd*d0d1w&o
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['*']
 
 
@@ -64,40 +59,25 @@ MIDDLEWARE = [
 
 # CORS Configuration
 
-main_url = os.getenv('FRONTEND_URL')
+main_url = 'http://allanfreitas.com/#/en/projects/dvd-rental'
 
 if main_url is None:
     raise Exception("FRONTEND_URL is not set")
 
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+# ]
 
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'DVD_RENTAL.urls'
 
 # Enforce HTTPS
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-
-# Certificate
-
-server {
-    listen 443 ssl;
-    server_name  localhost;
-
-    ssl_certificate /path/to/your/fullchain.pem;
-    ssl_certificate_key /path/to/your/privkey.pem;
-
-    # SSL configuration...
-}
-
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
 
 
 TEMPLATES = [
@@ -127,6 +107,7 @@ db_user = os.getenv('DB_USER')
 db_password = os.getenv('DB_PASSWORD')
 db_host = os.getenv('DB_HOST')
 db_port = os.getenv('DB_PORT')
+
 
 if db_name is None or db_user is None or db_password is None or db_host is None or db_port is None:
     raise Exception("DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT are not set")
