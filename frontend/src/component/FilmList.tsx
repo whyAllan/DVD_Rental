@@ -1,12 +1,12 @@
 function FilmList({ films }: any) {
   return (
     <div className="filmCardList">
-      <div className="row row-cols-5 row-cols-md-5 g-4">
+      <div className="row row-cols-5 row-cols-md-5 ">
         {films.map((film: any) => (
           <div className="col" key={film.film_id}>
             <div
               className="card text-bg-dark border-primary mb-3"
-              onClick={() => (window.location.href = `/films/${film.film_id}`)}
+              onClick={() => (window.location.href = `#/films/${film.film_id}`)}
               data-bs-theme="dark"
             >
               <div className="card-body">

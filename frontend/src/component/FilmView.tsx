@@ -29,7 +29,7 @@ function FilmView() {
     const id = event.currentTarget.getAttribute("data-id");
     if (!id || !type) return console.log("No id or type");
 
-    window.location.href = `/filter/${type}/${id}`;
+    window.location.href = `#/filter/${type}/${id}`;
   }
 
   return (
@@ -135,7 +135,7 @@ function FilmView() {
                         key={store.store_id}
                         className="goto-store"
                         onClick={() =>
-                          (window.location.href = `/store/${store.store_id}`)
+                          (window.location.href = `#/store/${store.store_id}`)
                         }
                       >
                         <li>

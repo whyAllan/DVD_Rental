@@ -6,7 +6,7 @@ function Navbar() {
 
   async function search(event: any) {
     event.preventDefault();
-    window.location.href = `/search?query=${searchQuery}`;
+    window.location.href = `#/search?query=${searchQuery}`;
   }
 
   return (
@@ -38,7 +38,7 @@ function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/filter">
+              <a className="nav-link" href="#/filter">
                 Filter
               </a>
             </li>

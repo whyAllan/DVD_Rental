@@ -34,6 +34,7 @@ function CategoryMap({ category }: any) {
   async function fetchMore() {
     // Get next 5 films of category
     try {
+      setIsLoading(true);
       const response = await api.get(
         `/films/category/${category.category_id}?page=${page + 1}`
       );
@@ -65,11 +66,9 @@ function CategoryMap({ category }: any) {
 
   useEffect(() => {
     setFilmsDisplay(films.slice((page - 1) * 5, page * 5));
-
     setHasPrevious(page > 1);
+    setIsLoading(false);
   }, [page, films]);
-
-  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="categoryMap">
@@ -85,8 +84,7 @@ function CategoryMap({ category }: any) {
           />
         )}
         <div className="rentList">
-          {isLoading && <LoadingSpinner />}
-          {filmsDisplay && <FilmList films={filmsDisplay} />}
+          {isLoading ? <LoadingSpinner /> : <FilmList films={filmsDisplay} />}
         </div>
         {hasNext && (
           <img

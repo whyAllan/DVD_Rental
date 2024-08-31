@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import api from "../api/api";
+import LoadingSpinner from "./LoadingSpinner";
 
 function SearchActorForm({ navigate }: any) {
   const [actors, setActors] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (searchQuery.length < 3) return;
     const timeout = setTimeout(async () => {
+      setIsLoading(true);
       const response = await api.get(`/search/actors?q=${searchQuery}`);
       const data = response;
       setActors(data);
+      setIsLoading(false);
     }, 700);
 
     return () => clearTimeout(timeout);
@@ -33,7 +37,7 @@ function SearchActorForm({ navigate }: any) {
         value={searchQuery}
       />
 
-      {actors.length > 0 && (
+      {actors.length > 0 ? (
         <div className="form-select">
           {actors.map((actor: any) => (
             <div
@@ -46,6 +50,12 @@ function SearchActorForm({ navigate }: any) {
             </div>
           ))}
         </div>
+      ) : (
+        isLoading && (
+          <div className="form-select">
+            <LoadingSpinner />
+          </div>
+        )
       )}
     </div>
   );
